@@ -3,7 +3,10 @@
 # dependencies
 /node_modules
 /.pnp
+/html
 .pnp.js
+.prettierrc
+.idea
 
 # testing
 /coverage
