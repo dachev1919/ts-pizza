@@ -10,11 +10,11 @@ export const Routers: FC<RoutersProps> = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/fs-pizza" />} />
-        <Route path="/*" element={<Navigate to="/fs-pizza" />} />
-        <Route path="/fs-pizza" element={<GlobalFeed />} />
-        <Route path="/fs-pizza/*" element={<NotFound />} />
-        <Route path="/fs-pizza/cart" element={<Cart />} />
+        <Route path="/" element={<Navigate to="/ts-pizza" />} />
+        <Route path="/*" element={<Navigate to="/ts-pizza" />} />
+        <Route path="/ts-pizza" element={<GlobalFeed />} />
+        <Route path="/ts-pizza/*" element={<NotFound />} />
+        <Route path="/ts-pizza/cart" element={<Cart />} />
       </Routes>
     </>
   );

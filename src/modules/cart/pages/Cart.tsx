@@ -45,7 +45,7 @@ export const Cart: FC<CartProps> = () => {
             </div>
             <div className={styles['cart__bottom-buttons']}>
               <Link
-                to={'/fs-pizza'}
+                to={'/ts-pizza'}
                 className="button button--outline button--add go-back-btn"
               >
                 <img src={arrowLeft} alt="arrow" />
