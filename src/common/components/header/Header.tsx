@@ -1,22 +1,26 @@
 import { FC } from 'react';
 // @ts-ignore
 import logo from '../../../assets/images/pizza-logo.svg';
+import styles from './Header.module.scss';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
   return (
-    <div className="header">
-      <div className="container">
-        <div className="header__logo">
-          <img width="38" src={logo} alt="Pizza logo" />
-          <div>
-            <h1>TS Pizza</h1>
-            <p>найсмачніша піца</p>
+    <div className={styles.header}>
+      <div className={`${styles.header__container} container`}>
+        <Link to="/fs-pizza">
+          <div className={styles.header__logo}>
+            <img width="38" src={logo} alt="Pizza logo" />
+            <div>
+              <h1>TS Pizza</h1>
+              <p>найсмачніша піца</p>
+            </div>
           </div>
-        </div>
-        <div className="header__cart">
-          <a href="/" className="button button--cart">
+        </Link>
+        <div className={styles['header__cart']}>
+          <button className="button button--cart">
             <span>520 $</span>
             <div className="button__delimiter"></div>
             <svg
@@ -49,7 +53,7 @@ export const Header: FC<HeaderProps> = () => {
               />
             </svg>
             <span>3</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>

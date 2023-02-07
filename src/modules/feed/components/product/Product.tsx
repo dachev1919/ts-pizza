@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
 import { PlusSvg } from '../../../../common/components/UI/PlusSvg';
+import styles from './Product.module.scss';
 
-interface ProductProps {
+export interface IProduct {
   id: number;
   imageUrl: string;
   title: string;
@@ -11,6 +12,8 @@ interface ProductProps {
   category: number;
   rating: number;
 }
+
+interface ProductProps extends IProduct {}
 
 export const Product: FC<ProductProps> = ({
   id,
@@ -28,16 +31,20 @@ export const Product: FC<ProductProps> = ({
   const [activeSize, setActiveSize] = useState<number>(sizes[0]);
 
   return (
-    <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
-      <div className="pizza-block__selector">
+    <div className={styles['pizza-block']}>
+      <img
+        className={styles['pizza-block__image']}
+        src={imageUrl}
+        alt="Pizza"
+      />
+      <h4 className={styles['pizza-block__title']}>{title}</h4>
+      <div className={styles['pizza-block__selector']}>
         <ul>
           {types.map(
             (type, index) =>
               typeNames.includes(type) && (
                 <li
-                  className={`${type === activeType && 'active'}`}
+                  className={`${type === activeType && styles.active}`}
                   onClick={() => setActiveType(type)}
                   key={`type-${index}`}
                 >
@@ -49,7 +56,7 @@ export const Product: FC<ProductProps> = ({
         <ul>
           {sizes.map((size, index) => (
             <li
-              className={`${activeSize === size && 'active'}`}
+              className={`${activeSize === size && styles.active}`}
               onClick={() => setActiveSize(size)}
               key={`li-${index}`}
             >
@@ -58,8 +65,8 @@ export const Product: FC<ProductProps> = ({
           ))}
         </ul>
       </div>
-      <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от {price} ₽</div>
+      <div className={styles['pizza-block__bottom']}>
+        <div className={styles['pizza-block__price']}>от {price} ₽</div>
         <button
           onClick={() => setCount((prevState) => prevState + 1)}
           className="button button--outline button--add"

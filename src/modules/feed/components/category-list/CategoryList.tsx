@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import styles from './CategoryList.module.scss';
 
 interface CategoryListProps {}
 
@@ -19,13 +20,15 @@ export const CategoryList: FC<CategoryListProps> = () => {
   };
 
   return (
-    <div className="categories">
+    // @ts-ignore
+    <div className={styles.categories}>
       <ul>
         {categoryList.map((category, index) => (
           <li
             key={index}
             onClick={() => onClickCategoryHandler(index)}
-            className={`${activeCategory === index && 'active'}`}
+            // @ts-ignore
+            className={`${activeCategory === index && styles.active}`}
           >
             {category}
           </li>

@@ -1,10 +1,12 @@
-import { GlobalFeed } from './modules/feed/pages/GlobalFeed';
+import { Header } from './common/components/header/Header';
+import { Routers } from './routes/Routers';
 
 function App() {
   return (
-    <>
-      <GlobalFeed />
-    </>
+    <div className="wrapper">
+      <Header />
+      <Routers />
+    </div>
   );
 }
 

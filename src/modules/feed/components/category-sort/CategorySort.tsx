@@ -1,5 +1,6 @@
 import { FC, useRef, useState } from 'react';
 import { ArrowUpSvg } from '../../../../common/components/UI/ArrowUpSvg';
+import styles from './CategorySort.module.scss';
 
 interface CategorySortProps {}
 
@@ -10,21 +11,23 @@ export const CategorySort: FC<CategorySortProps> = () => {
 
   return (
     <div
-      className="sort"
-      onClick={() => (sortRef.current as Element).classList.toggle('active')}
+      className={styles.sort}
+      onClick={() =>
+        (sortRef.current as Element).classList.toggle(styles.active)
+      }
     >
-      <div className="sort__label">
+      <div className={styles['sort__label']}>
         <ArrowUpSvg />
         <b>Сортування за:</b>
         <span>{activeSort}</span>
       </div>
-      <div ref={sortRef} className="sort__popup">
+      <div ref={sortRef} className={styles['sort__popup']}>
         <ul>
           {sortList.map((item) => (
             <li
               key={`sort-${item}`}
               onClick={() => setActiveSort(item)}
-              className={`${item === activeSort && 'active'}`}
+              className={`${item === activeSort && styles.active}`}
             >
               {item}
             </li>
