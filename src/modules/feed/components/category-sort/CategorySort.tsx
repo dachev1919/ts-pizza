@@ -1,5 +1,6 @@
 import { FC, useRef, useState } from 'react';
-import { ArrowUpSvg } from '../../../../common/components/UI/ArrowUpSvg';
+//@ts-ignore
+import arrowUp from '../../../../assets/images/arrow-up.svg';
 import styles from './CategorySort.module.scss';
 
 interface CategorySortProps {}
@@ -17,7 +18,7 @@ export const CategorySort: FC<CategorySortProps> = () => {
       }
     >
       <div className={styles['sort__label']}>
-        <ArrowUpSvg />
+        <img src={arrowUp} alt="arrow-up" />
         <b>Сортування за:</b>
         <span>{activeSort}</span>
       </div>

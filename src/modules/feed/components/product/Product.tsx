@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
-import { PlusSvg } from '../../../../common/components/UI/PlusSvg';
+//@ts-ignore
+import Plus from '../../../../assets/images/plus-white.svg';
 import styles from './Product.module.scss';
 
 export interface IProduct {
@@ -69,9 +70,9 @@ export const Product: FC<ProductProps> = ({
         <div className={styles['pizza-block__price']}>от {price} ₽</div>
         <button
           onClick={() => setCount((prevState) => prevState + 1)}
-          className="button button--outline button--add"
+          className="button button--add"
         >
-          <PlusSvg />
+          <img src={Plus} alt="plus" />
           <span>Додати</span>
           <i>{count}</i>
         </button>

@@ -12,18 +12,16 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const api = async () => {
-      fetch('https://63e21a47109336b6cbff8c48.mockapi.io/pizzas', {
-        method: 'GET',
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          setItems(result);
-          setIsLoading(false);
-        });
-    };
+    fetch('https://63e21a47109336b6cbff8c48.mockapi.io/pizzas', {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setItems(result);
+        setIsLoading(false);
+      });
 
-    api();
+    window.scrollTo(0, 0);
   }, []);
 
   return (

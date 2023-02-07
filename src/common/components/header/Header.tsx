@@ -20,7 +20,7 @@ export const Header: FC<HeaderProps> = () => {
           </div>
         </Link>
         <div className={styles['header__cart']}>
-          <button className="button button--cart">
+          <Link to="/fs-pizza/cart" className="button button--cart">
             <span>520 $</span>
             <div className="button__delimiter"></div>
             <svg
@@ -53,7 +53,7 @@ export const Header: FC<HeaderProps> = () => {
               />
             </svg>
             <span>3</span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
