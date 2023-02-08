@@ -1,13 +1,18 @@
-import { FC, useRef, useState } from 'react';
-//@ts-ignore
-import arrowUp from '../../../../assets/images/arrow-up.svg';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
 import styles from './CategorySort.module.scss';
+import { ISortList } from '../../pages/GlobalFeed';
 
-interface CategorySortProps {}
+interface CategorySortProps {
+  sortList: ISortList[];
+  activeSortBy: ISortList;
+  setSortBy: Dispatch<SetStateAction<ISortList>>;
+}
 
-export const CategorySort: FC<CategorySortProps> = () => {
-  const sortList: string[] = ['популярності', 'ціні', 'алфавіту'];
-  const [activeSort, setActiveSort] = useState<string>(sortList[0]);
+export const CategorySort: FC<CategorySortProps> = ({
+  sortList,
+  activeSortBy,
+  setSortBy,
+}) => {
   const sortRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -18,19 +23,20 @@ export const CategorySort: FC<CategorySortProps> = () => {
       }
     >
       <div className={styles['sort__label']}>
-        <img src={arrowUp} alt="arrow-up" />
         <b>Сортування за:</b>
-        <span>{activeSort}</span>
+        <span>{activeSortBy.name}</span>
       </div>
       <div ref={sortRef} className={styles['sort__popup']}>
         <ul>
           {sortList.map((item) => (
             <li
-              key={`sort-${item}`}
-              onClick={() => setActiveSort(item)}
-              className={`${item === activeSort && styles.active}`}
+              key={`sort-${item.sortBy}`}
+              onClick={() => setSortBy(item)}
+              className={`${
+                item.sortBy === activeSortBy.sortBy && styles.active
+              }`}
             >
-              {item}
+              {item.name}
             </li>
           ))}
         </ul>

@@ -4,27 +4,57 @@ import { CategorySort } from '../components/category-sort/CategorySort';
 import { IProduct, Product } from '../components/product/Product';
 import { Container } from '../../../common/components/container/Container';
 import { ProductSkeleton } from '../components/product/ProductSkeleton';
+import { getProductList } from '../components/api/get-product/get-product';
+import styles from './GlobalFeed.module.scss';
+//@ts-ignore
+import arrowUp from '../../../assets/images/arrow-up.svg';
+
 interface GlobalFeedProps {}
 
+export interface ISortList {
+  name: string;
+  sortBy: string;
+}
+
 export const GlobalFeed: FC<GlobalFeedProps> = () => {
+  const sortList: ISortList[] = [
+    { name: 'популярності', sortBy: 'rating' },
+    { name: 'ціні', sortBy: 'price' },
+    { name: 'алфавіту', sortBy: 'title' },
+  ];
+  const [sortBy, setSortBy] = useState<ISortList>(sortList[0]);
+  const [allItems, setAllItems] = useState<IProduct[]>([]);
   const [items, setItems] = useState<IProduct[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const [categoryId, setCategoryId] = useState<number>(0);
-  const [sortBy, setSortBy] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [sortOrder, setSortOrder] = useState<string>('desc');
 
+  // set all items
   useEffect(() => {
-    fetch('https://63e21a47109336b6cbff8c48.mockapi.io/pizzas', {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setItems(result);
-        setIsLoading(false);
-      });
-
-    window.scrollTo(0, 0);
+    getProductList('pizzas', setIsLoading).then((i) => {
+      setAllItems(i);
+    });
   }, []);
+
+  // sort by category
+  useEffect(() => {
+    setIsLoading(true);
+    if (!categoryId) {
+      getProductList(
+        `pizzas?&sortBy=${sortBy.sortBy}&order=${sortOrder}`,
+        setIsLoading
+      ).then((i) => {
+        setItems(i);
+      });
+    } else {
+      // &sortBy=price....
+      getProductList(
+        `pizzas?category=${categoryId}&sortBy=${sortBy.sortBy}&order=${sortOrder}`,
+        setIsLoading
+      ).then((i) => setItems(i));
+    }
+    window.scrollTo(0, 0);
+  }, [categoryId, sortBy, sortOrder]);
 
   return (
     <div className="content">
@@ -33,11 +63,29 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
           {!isLoading && (
             <>
               <CategoryList
-                items={items}
+                items={allItems}
                 activeId={categoryId}
                 setActiveId={setCategoryId}
               />
-              <CategorySort />
+              <CategorySort
+                sortList={sortList}
+                activeSortBy={sortBy}
+                setSortBy={setSortBy}
+              />
+              <div className={styles.sortAscDesc}>
+                <div onClick={() => setSortOrder('asc')}>
+                  <img src={arrowUp} alt="up" />
+                  <span>зрост.</span>
+                </div>
+                <div onClick={() => setSortOrder('desc')}>
+                  <img
+                    style={{ transform: 'rotate(180deg)' }}
+                    src={arrowUp}
+                    alt="down"
+                  />
+                  <span>спад.</span>
+                </div>
+              </div>
             </>
           )}
         </div>

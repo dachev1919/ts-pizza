@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+.sortAscDesc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+
+    span {
+      color: $orange;
+      transition: all 0.3s ease;
+    }
+    &:hover {
+      span {
+        color: darken($orange, 12%);
+      }
+    }
+  }
+}
