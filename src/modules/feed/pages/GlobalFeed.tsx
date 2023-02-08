@@ -29,37 +29,39 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortOrder, setSortOrder] = useState<string>('desc');
 
-  // sort by
+  // sorting logic
   useEffect(() => {
-    if (sortBy.sortBy === 'rating') {
-      let sortedItems = allItems.sort((a, b) => Number(a.rating > b.rating));
-      if (sortOrder === 'asc') {
-        sortedItems.reverse();
+    let newItems: IProduct[] = allItems;
+    if (allItems.length > 0) {
+      if (categoryId !== 0) {
+        newItems = allItems.filter((item) => item.category === categoryId);
+      } else {
+        newItems = [...allItems];
       }
-      setItems(sortedItems);
-    } else if (sortBy.sortBy === 'price') {
-      let sortedItems = allItems.sort((a, b) => Number(a.price > b.price));
-      if (sortOrder === 'asc') {
-        sortedItems.reverse();
-      }
-      setItems(sortedItems);
-    } else if (sortBy.sortBy === 'title') {
-      let sortedItems = allItems.sort((a, b) => Number(a.title > b.title));
-      if (sortOrder === 'asc') {
-        sortedItems.reverse();
-      }
-      setItems(sortedItems);
-    }
-  }, [sortOrder, sortBy]);
 
-  // show items by category
-  useEffect(() => {
-    if (categoryId !== 0 && allItems.length > 0) {
-      setItems(allItems.filter((item) => item.category === categoryId));
-    } else {
-      setItems(allItems);
+      switch (sortBy.sortBy) {
+        case 'rating':
+          newItems = newItems.sort((a, b) => Number(a.rating > b.rating));
+          if (sortOrder === 'asc') {
+            newItems.reverse();
+          }
+          break;
+        case 'price':
+          newItems = newItems.sort((a, b) => Number(a.price > b.price));
+          if (sortOrder === 'asc') {
+            newItems.reverse();
+          }
+          break;
+        case 'title':
+          newItems = newItems.sort((a, b) => Number(a.title > b.title));
+          if (sortOrder === 'asc') {
+            newItems.reverse();
+          }
+          break;
+      }
+      setItems(newItems);
     }
-  }, [categoryId]);
+  }, [sortOrder, sortBy, categoryId]);
 
   // set all items
   useEffect(() => {
