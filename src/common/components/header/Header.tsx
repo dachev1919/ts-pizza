@@ -1,12 +1,16 @@
-import { FC } from 'react';
+import { Dispatch, FC, ReactPropTypes, SetStateAction } from 'react';
 // @ts-ignore
 import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
+import { Search } from '../UI/search/Search';
 
-interface HeaderProps {}
+interface HeaderProps {
+  searchValue: string;
+  setSearchValue: Dispatch<SetStateAction<string>>;
+}
 
-export const Header: FC<HeaderProps> = () => {
+export const Header: FC<HeaderProps> = ({ searchValue, setSearchValue }) => {
   return (
     <div className={styles.header}>
       <div className={`${styles.header__container} container`}>
@@ -19,6 +23,11 @@ export const Header: FC<HeaderProps> = () => {
             </div>
           </div>
         </Link>
+        <Search
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          placeholder="Пошук піци"
+        />
         <div className={styles['header__cart']}>
           <Link to="/ts-pizza/cart" className="button button--cart">
             <span>520 $</span>

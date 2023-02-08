@@ -8,15 +8,32 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 767px) {
       flex-direction: column;
+      > a:not(:last-child),
+      > div:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+    > *:first-child {
+      flex: 0 0 34%;
+    }
+
+    > div:not(:first-child):not(:last-child) {
+      flex: 1 1 auto;
+    }
+
+    > *:last-child {
+      flex: 0 0 30%;
     }
   }
 
   &__cart {
-    @media screen and (max-width: 576px) {
+    display: flex;
+    justify-content: end;
+    @media screen and (max-width: 767px) {
       width: 100%;
-      button {
+      a {
         width: 100%;
       }
     }
@@ -24,8 +41,7 @@
 
   &__logo {
     display: flex;
-    @media screen and (max-width: 576px) {
-      margin-bottom: 20px;
+    @media screen and (max-width: 767px) {
     }
 
     img {

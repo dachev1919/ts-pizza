@@ -29,32 +29,49 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortOrder, setSortOrder] = useState<string>('desc');
 
+  // sort by
+  useEffect(() => {
+    if (sortBy.sortBy === 'rating') {
+      let sortedItems = allItems.sort((a, b) => Number(a.rating > b.rating));
+      if (sortOrder === 'asc') {
+        sortedItems.reverse();
+      }
+      setItems(sortedItems);
+    } else if (sortBy.sortBy === 'price') {
+      let sortedItems = allItems.sort((a, b) => Number(a.price > b.price));
+      if (sortOrder === 'asc') {
+        sortedItems.reverse();
+      }
+      setItems(sortedItems);
+    } else if (sortBy.sortBy === 'title') {
+      let sortedItems = allItems.sort((a, b) => Number(a.title > b.title));
+      if (sortOrder === 'asc') {
+        sortedItems.reverse();
+      }
+      setItems(sortedItems);
+    }
+  }, [sortOrder, sortBy]);
+
+  // show items by category
+  useEffect(() => {
+    if (categoryId !== 0 && allItems.length > 0) {
+      setItems(allItems.filter((item) => item.category === categoryId));
+    } else {
+      setItems(allItems);
+    }
+  }, [categoryId]);
+
   // set all items
   useEffect(() => {
-    getProductList('pizzas', setIsLoading).then((i) => {
-      setAllItems(i);
-    });
-  }, []);
-
-  // sort by category
-  useEffect(() => {
-    setIsLoading(true);
-    if (!categoryId) {
-      getProductList(
-        `pizzas?&sortBy=${sortBy.sortBy}&order=${sortOrder}`,
-        setIsLoading
-      ).then((i) => {
+    if (!allItems.length) {
+      getProductList('pizzas', setIsLoading).then((i) => {
+        setAllItems(i);
         setItems(i);
       });
-    } else {
-      // &sortBy=price....
-      getProductList(
-        `pizzas?category=${categoryId}&sortBy=${sortBy.sortBy}&order=${sortOrder}`,
-        setIsLoading
-      ).then((i) => setItems(i));
     }
+
     window.scrollTo(0, 0);
-  }, [categoryId, sortBy, sortOrder]);
+  }, []);
 
   return (
     <div className="content">
@@ -89,7 +106,7 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
             </>
           )}
         </div>
-        <h2 className="content__title">Все пиццы</h2>
+        <h2 className="content__title">Усі піци</h2>
         <div className="content__items">
           {isLoading
             ? [...new Array(8)].map((_, index) => (
