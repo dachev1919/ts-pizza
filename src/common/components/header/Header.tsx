@@ -1,4 +1,4 @@
-import { Dispatch, FC, ReactPropTypes, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 // @ts-ignore
 import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';

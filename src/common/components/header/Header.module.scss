@@ -30,7 +30,7 @@
 
   &__cart {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     @media screen and (max-width: 767px) {
       width: 100%;
       a {

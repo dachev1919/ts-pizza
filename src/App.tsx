@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="wrapper">
       <Header searchValue={searchValue} setSearchValue={setSearchValue} />
-      <Routers />
+      <Routers searchValue={searchValue} />
     </div>
   );
 }

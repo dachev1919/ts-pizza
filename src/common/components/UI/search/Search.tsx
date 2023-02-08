@@ -14,7 +14,7 @@ export const Search: FC<SearchProps> = ({
   setSearchValue,
 }) => {
   return (
-    <div className={styles.input}>
+    <div className={styles.search!}>
       <input
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}

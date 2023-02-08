@@ -4,14 +4,14 @@ import { IProduct } from '../product/Product';
 
 interface CategoryListProps {
   items: IProduct[];
-  activeId: number;
-  setActiveId: Dispatch<SetStateAction<number>>;
+  activeName: string;
+  setActiveName: Dispatch<SetStateAction<string>>;
 }
 
 export const CategoryList: FC<CategoryListProps> = ({
   items,
-  activeId,
-  setActiveId,
+  activeName,
+  setActiveName,
 }) => {
   let categoryList = items.map((item) => item.categoryName);
   categoryList.unshift('всі');
@@ -26,8 +26,17 @@ export const CategoryList: FC<CategoryListProps> = ({
         {categoryList.map((category, index) => (
           <li
             key={index}
-            onClick={() => setActiveId(index)}
-            className={`${index === activeId && styles.active}`}
+            onClick={() =>
+              category === categoryList[0]
+                ? setActiveName('')
+                : setActiveName(category)
+            }
+            className={`${
+              (category === activeName ||
+                // for "all" active
+                (activeName === '' && category === categoryList[0])) &&
+              styles.active
+            }`}
           >
             {category}
           </li>
