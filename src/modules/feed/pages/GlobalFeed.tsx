@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { CategoryList } from '../components/category/CategoryList';
 import { CategorySort } from '../components/category-sort/CategorySort';
 import { IProduct, Product } from '../components/product/Product';
@@ -9,29 +9,34 @@ import styles from './GlobalFeed.module.scss';
 //@ts-ignore
 import arrowUp from '../../../assets/images/arrow-up.svg';
 import ReactPaginate from 'react-paginate';
+import SearchContext from '../../../common/components/UI/search/Search';
 
-interface GlobalFeedProps {
-  searchValue: string;
-}
+const sortList: ISortList[] = [
+  { name: 'популярність', sortBy: 'rating' },
+  { name: 'ціна', sortBy: 'price' },
+  { name: 'алфавіт', sortBy: 'title' },
+];
+
+interface GlobalFeedProps {}
 
 export interface ISortList {
   name: string;
   sortBy: string;
 }
 
-export const GlobalFeed: FC<GlobalFeedProps> = ({ searchValue }) => {
-  const sortList: ISortList[] = [
-    { name: 'популярність', sortBy: 'rating' },
-    { name: 'ціна', sortBy: 'price' },
-    { name: 'алфавіт', sortBy: 'title' },
-  ];
-  const [sortBy, setSortBy] = useState<ISortList>(sortList[0]);
+export const GlobalFeed: FC<GlobalFeedProps> = () => {
+  // items and loading items
   const [allItems, setAllItems] = useState<IProduct[]>([]);
   const [items, setItems] = useState<IProduct[]>([]);
-  const [activeCategoryName, setActiveCategoryName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  // variables for sort items
+  const [sortBy, setSortBy] = useState<ISortList>(sortList[0]);
+  const [activeCategoryName, setActiveCategoryName] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('desc');
+  // pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
+  // search context
+  const { searchValue } = useContext(SearchContext);
 
   // sorting logic
   useEffect(() => {

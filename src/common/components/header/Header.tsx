@@ -1,33 +1,28 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 // @ts-ignore
 import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Search } from '../UI/search/Search';
 
-interface HeaderProps {
-  searchValue: string;
-  setSearchValue: Dispatch<SetStateAction<string>>;
-}
+interface HeaderProps {}
 
-export const Header: FC<HeaderProps> = ({ searchValue, setSearchValue }) => {
+export const Header: FC<HeaderProps> = () => {
   return (
     <div className={styles.header}>
       <div className={`${styles.header__container} container`}>
-        <Link to="/ts-pizza">
-          <div className={styles.header__logo}>
-            <img width="38" src={logo} alt="Pizza logo" />
-            <div>
-              <h1>TS Pizza</h1>
-              <p>найсмачніша піца</p>
+        <div>
+          <Link className={styles.header__logo} to="/ts-pizza">
+            <div className={styles.header__logo}>
+              <img width="38" src={logo} alt="Pizza logo" />
+              <div>
+                <h1>TS Pizza</h1>
+                <p>найсмачніша піца</p>
+              </div>
             </div>
-          </div>
-        </Link>
-        <Search
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          placeholder="Пошук піци"
-        />
+          </Link>
+        </div>
+        <Search placeholder="Пошук піци" />
         <div className={styles['header__cart']}>
           <Link to="/ts-pizza/cart" className="button button--cart">
             <span>520 $</span>

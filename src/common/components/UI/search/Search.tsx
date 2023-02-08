@@ -1,18 +1,26 @@
-import { ComponentProps, Dispatch, FC, SetStateAction } from 'react';
+import { ComponentProps, createContext, FC, useContext } from 'react';
 import styles from './Search.module.scss';
 import { BsSearch } from 'react-icons/bs';
 
 interface SearchProps {
   placeholder: ComponentProps<'input'>['placeholder'];
-  searchValue: string;
-  setSearchValue: Dispatch<SetStateAction<string>>;
 }
 
-export const Search: FC<SearchProps> = ({
-  placeholder,
-  searchValue,
-  setSearchValue,
-}) => {
+type SearchType = {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const ISearch = {
+  searchValue: '',
+  setSearchValue: () => {},
+};
+
+const SearchContext = createContext<SearchType>(ISearch);
+
+export const Search: FC<SearchProps> = ({ placeholder }) => {
+  const { searchValue, setSearchValue } = useContext(SearchContext);
+
   return (
     <div className={styles.search!}>
       <input
@@ -33,3 +41,5 @@ export const Search: FC<SearchProps> = ({
     </div>
   );
 };
+
+export default SearchContext;
