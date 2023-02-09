@@ -1,22 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ISortList } from '../../modules/feed/components/category-sort/CategorySort';
 import { sortOrderEnum } from '../../modules/feed/components/sort-order/SortOrder';
 
 export interface IProductFilterState {
   activeCategory: string;
-  sortBy: ISortList;
+  sortBy: string;
   sortOrder: sortOrderEnum;
+  currentPage: number;
 }
 
-const initialState: IProductFilterState = {
-  activeCategory: '',
-  sortBy: { name: 'популярність', sortBy: 'rating' },
+export const filterStateInitial: IProductFilterState = {
+  activeCategory: 'всі',
+  sortBy: 'популярність',
   sortOrder: sortOrderEnum.desc,
+  currentPage: 1,
 };
 
 export const productFilterSlice = createSlice({
   name: 'filters',
-  initialState,
+  initialState: filterStateInitial,
   reducers: {
     setActiveCategory(state, action) {
       state.activeCategory = action.payload;
@@ -27,10 +28,13 @@ export const productFilterSlice = createSlice({
     setSortBy(state, action) {
       state.sortBy = action.payload;
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
-export const { setActiveCategory, setSortOrder, setSortBy } =
+export const { setActiveCategory, setSortOrder, setSortBy, setCurrentPage } =
   productFilterSlice.actions;
 
 export default productFilterSlice.reducer;

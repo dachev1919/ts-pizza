@@ -1,10 +1,10 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { CategoryList } from '../components/category-list/CategoryList';
 import { CategorySort } from '../components/category-sort/CategorySort';
 import { IProduct, Product } from '../components/product/Product';
 import { Container } from '../../../common/components/container/Container';
 import { ProductSkeleton } from '../components/product/ProductSkeleton';
-import { getProductList } from '../components/api/get-product/get-product';
+import { getProductList } from '../api/get-product/get-product';
 import SearchContext from '../../../common/components/UI/search/Search';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -15,43 +15,43 @@ import { productSorting } from '../utils/product-sorting';
 interface GlobalFeedProps {}
 
 export const GlobalFeed: FC<GlobalFeedProps> = () => {
-  // items and loading items
+  // variables for sort items
+  const { sortBy, activeCategory, sortOrder, currentPage } = useSelector(
+    (state: RootState) => state.filter
+  );
+  // items
   const [allItems, setAllItems] = useState<IProduct[]>([]);
   const [items, setItems] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // variables for sort items
-  const { sortBy, activeCategory, sortOrder } = useSelector(
-    (state: RootState) => state.filter
-  );
-
-  // pagination
-  const [currentPage, setCurrentPage] = useState<number>(1);
   // search context
   const { searchValue } = useContext(SearchContext);
-
-  // sorting logic
-  useEffect(() => {
-    setItems(productSorting(allItems, activeCategory, sortBy, sortOrder));
-  }, [allItems, sortOrder, sortBy, activeCategory]);
 
   // set all items
   useEffect(() => {
     setIsLoading(true);
-    getProductList(`pizzas?page=${currentPage}&limit=8`, setIsLoading).then(
-      (i) => {
-        setAllItems(i);
-        setItems(i);
-      }
-    );
 
-    window.scrollTo(0, 0);
+    getProductList(`pizzas?page=${currentPage}&limit=8`).then((response) => {
+      setAllItems(response.data);
+      setItems(response.data);
+      setIsLoading(false);
+    });
   }, [currentPage]);
 
-  const afterSearchFiltered = (items: IProduct[]): IProduct[] => {
-    return items.filter((item) =>
-      item.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  };
+  // sorting logic and get url params
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    setItems(productSorting(allItems, activeCategory, sortBy, sortOrder));
+  }, [allItems, sortOrder, sortBy, activeCategory, currentPage]);
+
+  const afterSearchFiltered = useCallback(
+    (items: IProduct[]): IProduct[] => {
+      return items.filter((item) =>
+        item.title.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    },
+    [searchValue]
+  );
 
   return (
     <div className="content">
@@ -78,9 +78,7 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
             : afterSearchFiltered(items).map((pizza) => (
                 <Product key={pizza.id} {...pizza} />
               ))}
-          {afterSearchFiltered(items).length > 0 && (
-            <Pagination setCurrentPage={setCurrentPage} />
-          )}
+          {afterSearchFiltered(items).length > 0 && <Pagination />}
         </div>
       </Container>
     </div>

@@ -6,16 +6,7 @@ import { RootState } from '../../../../store/store';
 
 interface CategorySortProps {}
 
-export interface ISortList {
-  name: string;
-  sortBy: string;
-}
-
-const sortList: ISortList[] = [
-  { name: 'популярність', sortBy: 'rating' },
-  { name: 'ціна', sortBy: 'price' },
-  { name: 'алфавіт', sortBy: 'title' },
-];
+const sortList: string[] = ['популярність', 'ціна', 'алфавіт'];
 
 export const CategorySort: FC<CategorySortProps> = () => {
   const dispatch = useDispatch();
@@ -31,19 +22,17 @@ export const CategorySort: FC<CategorySortProps> = () => {
     >
       <div className={styles['sort__label']}>
         <b>Сортування за:</b>
-        <span>{activeSortBy.name}</span>
+        <span>{activeSortBy}</span>
       </div>
       <div ref={sortRef} className={styles['sort__popup']}>
         <ul>
           {sortList.map((item) => (
             <li
-              key={`sort-${item.sortBy}`}
+              key={`sort-${item}`}
               onClick={() => dispatch(setSortBy(item))}
-              className={`${
-                item.sortBy === activeSortBy.sortBy && styles.active
-              }`}
+              className={`${item === activeSortBy && styles.active}`}
             >
-              {item.name}
+              {item}
             </li>
           ))}
         </ul>

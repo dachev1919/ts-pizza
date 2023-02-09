@@ -29,13 +29,13 @@ export const CategoryList: FC<CategoryListProps> = ({ items }) => {
             key={index}
             onClick={() =>
               category === categoryList[0]
-                ? dispatch(setActiveCategory(''))
+                ? dispatch(setActiveCategory('всі'))
                 : dispatch(setActiveCategory(category))
             }
             className={`${
               (category === activeCategory ||
                 // for "all" active
-                (activeCategory === '' && category === categoryList[0])) &&
+                (activeCategory === 'всі' && category === categoryList[0])) &&
               styles.active
             }`}
           >

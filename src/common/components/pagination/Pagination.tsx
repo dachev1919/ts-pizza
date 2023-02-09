@@ -1,13 +1,19 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 // @ts-ignore
 import styles from './Pagination.module.scss';
 import ReactPaginate from 'react-paginate';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentPage } from '../../../store/slices/filterSlice';
+import { RootState } from '../../../store/store';
 
-interface PaginationProps {
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-}
+interface PaginationProps {}
 
-export const Pagination: FC<PaginationProps> = ({ setCurrentPage }) => {
+export const Pagination: FC<PaginationProps> = () => {
+  const dispatch = useDispatch();
+  const currentPage = useSelector(
+    (state: RootState) => state.filter.currentPage
+  );
+
   return (
     <ReactPaginate
       pageCount={2}
@@ -19,7 +25,8 @@ export const Pagination: FC<PaginationProps> = ({ setCurrentPage }) => {
       pageRangeDisplayed={2}
       activeLinkClassName=""
       pageLinkClassName=""
-      onPageChange={({ selected }) => setCurrentPage(++selected)}
+      initialPage={currentPage - 1}
+      onPageChange={({ selected }) => dispatch(setCurrentPage(++selected))}
     />
   );
 };

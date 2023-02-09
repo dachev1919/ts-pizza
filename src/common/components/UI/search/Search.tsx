@@ -1,4 +1,12 @@
-import { ComponentProps, createContext, FC, useContext } from 'react';
+import {
+  ComponentProps,
+  createContext,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useRef,
+} from 'react';
 import styles from './Search.module.scss';
 import { BsSearch } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
@@ -9,7 +17,7 @@ interface SearchProps {
 
 type SearchType = {
   searchValue: string;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  setSearchValue: Dispatch<SetStateAction<string>>;
 };
 
 const ISearch = {
@@ -21,6 +29,14 @@ const SearchContext = createContext<SearchType>(ISearch);
 
 export const Search: FC<SearchProps> = ({ placeholder }) => {
   const { searchValue, setSearchValue } = useContext(SearchContext);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const clearClickHandler = (): void => {
+    setSearchValue('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   return (
     <div className={styles.search!}>
@@ -28,6 +44,7 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
         <BsSearch />
       </label>
       <input
+        ref={inputRef}
         id="searchInput"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
@@ -41,7 +58,7 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
         {placeholder}
       </div>
       {searchValue.length > 0 && (
-        <span onClick={() => setSearchValue('')}>
+        <span onClick={clearClickHandler}>
           <CgClose />
         </span>
       )}
