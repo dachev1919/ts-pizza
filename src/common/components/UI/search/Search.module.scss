@@ -14,14 +14,13 @@
     width: 100%;
     z-index: 1;
   }
-  span {
+  span,
+  label {
     transition: all 0.3s ease;
-    cursor: pointer;
     display: flex;
     padding: 5px 10px;
-    &:hover {
-      opacity: 0.7;
-    }
+    color: #777;
+    cursor: pointer;
   }
   &:focus,
   &:focus-within {
@@ -32,12 +31,15 @@
       padding: 2px;
     }
   }
+  svg {
+    color: #777;
+  }
   .placeholder {
     position: absolute;
     background: white;
     color: #777;
     top: 50%;
-    left: 8px;
+    left: 45px;
     font-size: 16px;
     transition: all 0.1s linear;
     transform: translateY(-50%);

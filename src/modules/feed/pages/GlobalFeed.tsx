@@ -1,28 +1,18 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { CategoryList } from '../components/category/CategoryList';
+import { CategoryList } from '../components/category-list/CategoryList';
 import { CategorySort } from '../components/category-sort/CategorySort';
 import { IProduct, Product } from '../components/product/Product';
 import { Container } from '../../../common/components/container/Container';
 import { ProductSkeleton } from '../components/product/ProductSkeleton';
 import { getProductList } from '../components/api/get-product/get-product';
-import styles from './GlobalFeed.module.scss';
-//@ts-ignore
-import arrowUp from '../../../assets/images/arrow-up.svg';
-import ReactPaginate from 'react-paginate';
 import SearchContext from '../../../common/components/UI/search/Search';
-
-const sortList: ISortList[] = [
-  { name: 'популярність', sortBy: 'rating' },
-  { name: 'ціна', sortBy: 'price' },
-  { name: 'алфавіт', sortBy: 'title' },
-];
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { SortOrder } from '../components/sort-order/SortOrder';
+import { Pagination } from '../../../common/components/pagination/Pagination';
+import { productSorting } from '../utils/product-sorting';
 
 interface GlobalFeedProps {}
-
-export interface ISortList {
-  name: string;
-  sortBy: string;
-}
 
 export const GlobalFeed: FC<GlobalFeedProps> = () => {
   // items and loading items
@@ -30,9 +20,10 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   const [items, setItems] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // variables for sort items
-  const [sortBy, setSortBy] = useState<ISortList>(sortList[0]);
-  const [activeCategoryName, setActiveCategoryName] = useState<string>('');
-  const [sortOrder, setSortOrder] = useState<string>('desc');
+  const { sortBy, activeCategory, sortOrder } = useSelector(
+    (state: RootState) => state.filter
+  );
+
   // pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   // search context
@@ -40,39 +31,8 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
 
   // sorting logic
   useEffect(() => {
-    let newItems: IProduct[] = allItems;
-    if (allItems.length > 0) {
-      if (activeCategoryName !== '') {
-        newItems = allItems.filter(
-          (item) => item.categoryName === activeCategoryName
-        );
-      } else {
-        newItems = [...allItems];
-      }
-
-      switch (sortBy.sortBy) {
-        case 'rating':
-          newItems = newItems.sort((a, b) => Number(a.rating > b.rating));
-          if (sortOrder === 'asc') {
-            newItems.reverse();
-          }
-          break;
-        case 'price':
-          newItems = newItems.sort((a, b) => Number(a.price > b.price));
-          if (sortOrder === 'asc') {
-            newItems.reverse();
-          }
-          break;
-        case 'title':
-          newItems = newItems.sort((a, b) => Number(a.title > b.title));
-          if (sortOrder === 'asc') {
-            newItems.reverse();
-          }
-          break;
-      }
-      setItems(newItems);
-    }
-  }, [allItems, sortOrder, sortBy, activeCategoryName]);
+    setItems(productSorting(allItems, activeCategory, sortBy, sortOrder));
+  }, [allItems, sortOrder, sortBy, activeCategory]);
 
   // set all items
   useEffect(() => {
@@ -99,30 +59,9 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
         <div className="content__top">
           {!isLoading && (
             <>
-              <CategoryList
-                items={allItems}
-                activeName={activeCategoryName}
-                setActiveName={setActiveCategoryName}
-              />
-              <CategorySort
-                sortList={sortList}
-                activeSortBy={sortBy}
-                setSortBy={setSortBy}
-              />
-              <div className={styles.sortAscDesc}>
-                <div onClick={() => setSortOrder('asc')}>
-                  <img src={arrowUp} alt="up" />
-                  <span>зрост.</span>
-                </div>
-                <div onClick={() => setSortOrder('desc')}>
-                  <img
-                    style={{ transform: 'rotate(180deg)' }}
-                    src={arrowUp}
-                    alt="down"
-                  />
-                  <span>спад.</span>
-                </div>
-              </div>
+              <CategoryList items={allItems} />
+              <CategorySort />
+              <SortOrder />
             </>
           )}
         </div>
@@ -139,18 +78,9 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
             : afterSearchFiltered(items).map((pizza) => (
                 <Product key={pizza.id} {...pizza} />
               ))}
-          <ReactPaginate
-            pageCount={2}
-            previousLabel={null}
-            nextLabel={null}
-            containerClassName={styles['pagination']}
-            pageClassName=""
-            activeClassName={styles['pagination__active']}
-            pageRangeDisplayed={2}
-            activeLinkClassName=""
-            pageLinkClassName=""
-            onPageChange={({ selected }) => setCurrentPage(++selected)}
-          />
+          {afterSearchFiltered(items).length > 0 && (
+            <Pagination setCurrentPage={setCurrentPage} />
+          )}
         </div>
       </Container>
     </div>
