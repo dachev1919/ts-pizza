@@ -2,36 +2,72 @@ import { FC } from 'react';
 // @ts-ignore
 import plus from '../../../../assets/images/plus.svg';
 import styles from './CartItem.module.scss';
+import {
+  addProduct,
+  ICartItem,
+  removeItem,
+} from '../../../../store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
 
-interface CartItemProps {}
+interface CartItemProps extends ICartItem {}
 
-export const CartItem: FC<CartItemProps> = () => {
-  // @ts-ignore
+export const CartItem: FC<CartItemProps> = ({
+  id,
+  imageUrl,
+  title,
+  size,
+  type,
+  count,
+  price,
+}) => {
+  const dispatch = useDispatch();
+  const cartItem = {
+    id,
+    type,
+    size,
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addProduct(cartItem));
+  };
+  const removeFromCartHandler = () => {
+    dispatch(removeItem({ ...cartItem, deleteProduct: false }));
+  };
+  const deleteFromCartHandler = () => {
+    dispatch(removeItem({ ...cartItem, deleteProduct: true }));
+  };
+
   return (
     <div className={styles.cart__item}>
       <div className={styles['cart__item-img']}>
-        <img
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <img src={imageUrl} alt="Pizza" />
       </div>
       <div className={styles['cart__item-info']}>
-        <h3>Сырный цыпленок</h3>
-        <p>тонкое тесто, 26 см.</p>
+        <h3>{title}</h3>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className={styles['cart__item-count']}>
         <div
+          onClick={removeFromCartHandler}
           className={`button button--outline button--circle ${styles['cart__item-count-minus']}`}
         ></div>
-        <b>2</b>
-        <div className={`button button--outline button--circle`}>
+        <b>{count}</b>
+        <div
+          onClick={addToCartHandler}
+          className={`button button--outline button--circle ${styles['cart__item-count-plus']}`}
+        >
           <img src={plus} alt="plus" />
         </div>
       </div>
       <div className={styles['cart__item-price']}>
-        <b>770 ₽</b>
+        <b>{price} $</b>
       </div>
-      <div className={styles['cart__item-remove']}>
+      <div
+        onClick={deleteFromCartHandler}
+        className={styles['cart__item-remove']}
+      >
         <div
           className={`button button--outline button--circle ${styles['cart__item-remove']}`}
         >

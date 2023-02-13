@@ -4,10 +4,15 @@ import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link } from 'react-router-dom';
 import { Search } from '../UI/search/Search';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
+  const { totalQuantity, totalPrice } = useSelector(
+    (state: RootState) => state.cart
+  );
   return (
     <div className={styles.header}>
       <div className={`${styles.header__container} container`}>
@@ -25,7 +30,7 @@ export const Header: FC<HeaderProps> = () => {
         <Search placeholder="Пошук піци" />
         <div className={styles['header__cart']}>
           <Link to="/ts-pizza/cart" className="button button--cart">
-            <span>520 $</span>
+            <span>{totalPrice} $</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"
@@ -56,7 +61,7 @@ export const Header: FC<HeaderProps> = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>3</span>
+            <span>{totalQuantity}</span>
           </Link>
         </div>
       </div>

@@ -2,6 +2,9 @@ import { FC, useState } from 'react';
 //@ts-ignore
 import Plus from '../../../../assets/images/plus-white.svg';
 import styles from './Product.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct, removeItem } from '../../../../store/slices/cartSlice';
+import { RootState } from '../../../../store/store';
 
 export interface IProduct {
   id: number;
@@ -27,10 +30,28 @@ export const Product: FC<ProductProps> = ({
   category,
   rating,
 }) => {
-  const [count, setCount] = useState<number>(0);
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state: RootState) =>
+    state.cart.items.find((obj) => obj.id === id)
+  );
+  const addedCount: number =
+    cartItem && cartItem.totalCount ? cartItem.totalCount : 0;
   const typeNames: string[] = ['тонке', 'традиційне'];
   const [activeType, setActiveType] = useState<string>(types[0]);
   const [activeSize, setActiveSize] = useState<number>(sizes[0]);
+
+  const addToCartHandler = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: activeType,
+      size: activeSize,
+    };
+
+    dispatch(addProduct(item));
+  };
 
   return (
     <div className={styles['pizza-block']}>
@@ -69,13 +90,10 @@ export const Product: FC<ProductProps> = ({
       </div>
       <div className={styles['pizza-block__bottom']}>
         <div className={styles['pizza-block__price']}>от {price} ₽</div>
-        <button
-          onClick={() => setCount((prevState) => prevState + 1)}
-          className="button button--add"
-        >
+        <button onClick={addToCartHandler} className="button button--add">
           <img src={Plus} alt="plus" />
           <span>Додати</span>
-          <i>{count}</i>
+          <i>{addedCount}</i>
         </button>
       </div>
     </div>

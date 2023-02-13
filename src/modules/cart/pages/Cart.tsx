@@ -8,10 +8,27 @@ import arrowLeft from '../../../assets/images/grey-arrow-left.svg';
 import styles from './Cart.module.scss';
 import { CartItem } from '../components/cart-item/CartItem';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { clearCart } from '../../../store/slices/cartSlice';
+import { IProduct } from '../../feed/components/product/Product';
 
 interface CartProps {}
 
 export const Cart: FC<CartProps> = () => {
+  const items = useSelector((state: RootState) => state.cart.items);
+  const sortedItems = [...items].sort(
+    (a: IProduct, b: IProduct) => a.id - b.id
+  );
+  const dispatch = useDispatch();
+  const { totalPrice, totalQuantity } = useSelector(
+    (state: RootState) => state.cart
+  );
+
+  const clearCartHandler = () => {
+    dispatch(clearCart());
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -24,23 +41,26 @@ export const Cart: FC<CartProps> = () => {
             <h2 className={styles.content__title}>
               <img src={cart} alt="cart" /> Кошик
             </h2>
-            <div className={styles.cart__clear}>
+            <div onClick={clearCartHandler} className={styles.cart__clear}>
               <img src={trash} alt="trash" />
-              <span>Очистить корзину</span>
+              <span>Очистити корзину</span>
             </div>
           </div>
           <div>
-            <CartItem />
-            <CartItem />
-            <CartItem />
+            {sortedItems.map((item) => (
+              <CartItem
+                key={`${item.id}-${item.type}-${item.size}`}
+                {...item}
+              />
+            ))}
           </div>
           <div className={styles.cart__bottom}>
             <div className={styles['cart__bottom-details']}>
               <span>
-                Всего пицц: <b>3 шт.</b>
+                Всього піц: <b>{totalQuantity} шт.</b>
               </span>
               <span>
-                Сумма заказа: <b>900 ₽</b>
+                Сума замовлення: <b>{totalPrice} $</b>
               </span>
             </div>
             <div className={styles['cart__bottom-buttons']}>
@@ -49,10 +69,10 @@ export const Cart: FC<CartProps> = () => {
                 className="button button--outline button--add go-back-btn"
               >
                 <img src={arrowLeft} alt="arrow" />
-                <span>Вернуться назад</span>
+                <span>Повернутися назад</span>
               </Link>
               <div className="button pay-btn">
-                <span>Оплатить сейчас</span>
+                <span>Оплатити зараз</span>
               </div>
             </div>
           </div>

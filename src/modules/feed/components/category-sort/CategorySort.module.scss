@@ -13,6 +13,11 @@
       margin-right: 8px;
     }
 
+    b,
+    span {
+      user-select: none;
+    }
+
     b {
       margin-right: 8px;
       cursor: pointer;
@@ -24,7 +29,12 @@
       cursor: pointer;
     }
   }
-
+  &.active {
+    .sort__popup {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   &__popup {
     position: absolute;
     right: 0;
@@ -38,10 +48,6 @@
     opacity: 0;
     transition: all 0.3s ease;
     transform: translateY(10px);
-    &.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
 
     ul {
       overflow: hidden;
