@@ -4,7 +4,7 @@ import ContentLoader from 'react-content-loader';
 
 interface ProductSkeletonProps {}
 
-export const ProductSkeleton: FC<ProductSkeletonProps> = () => (
+export const MiniProductSkeleton: FC<ProductSkeletonProps> = () => (
   <ContentLoader
     className="pizza-block"
     speed={2}

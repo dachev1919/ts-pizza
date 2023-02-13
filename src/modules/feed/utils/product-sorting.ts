@@ -1,4 +1,4 @@
-import { IProduct } from '../components/product/Product';
+import { IProduct } from '../components/mini-product/MiniProduct';
 import { sortOrderEnum } from '../components/sort-order/SortOrder';
 
 export const productSorting = (

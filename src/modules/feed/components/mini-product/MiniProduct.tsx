@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
 //@ts-ignore
 import Plus from '../../../../assets/images/plus-white.svg';
-import styles from './Product.module.scss';
+import styles from './MiniProduct.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, removeItem } from '../../../../store/slices/cartSlice';
+import { addProduct } from '../../../../store/slices/cartSlice';
 import { RootState } from '../../../../store/store';
+import { Link } from 'react-router-dom';
 
 export interface IProduct {
   id: number;
@@ -20,7 +21,7 @@ export interface IProduct {
 
 interface ProductProps extends IProduct {}
 
-export const Product: FC<ProductProps> = ({
+export const MiniProduct: FC<ProductProps> = ({
   id,
   imageUrl,
   title,
@@ -55,12 +56,14 @@ export const Product: FC<ProductProps> = ({
 
   return (
     <div className={styles['pizza-block']}>
-      <img
-        className={styles['pizza-block__image']}
-        src={imageUrl}
-        alt="Pizza"
-      />
-      <h4 className={styles['pizza-block__title']}>{title}</h4>
+      <Link to={`/ts-pizza/${id}`}>
+        <img
+          className={styles['pizza-block__image']}
+          src={imageUrl}
+          alt="Pizza"
+        />
+        <h4 className={styles['pizza-block__title']}>{title}</h4>
+      </Link>
       <div className={styles['pizza-block__selector']}>
         <ul>
           {types.map(

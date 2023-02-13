@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { clearCart } from '../../../store/slices/cartSlice';
-import { IProduct } from '../../feed/components/product/Product';
+import { IProduct } from '../../feed/components/mini-product/MiniProduct';
 import { EmptyCart } from '../components/empty-cart/EmptyCart';
 
 interface CartProps {}

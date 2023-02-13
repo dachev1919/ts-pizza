@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IProduct } from '../../modules/feed/components/product/Product';
+import { IProduct } from '../../modules/feed/components/mini-product/MiniProduct';
 
 // if you need to scale the application
 export const productsApi = createApi({

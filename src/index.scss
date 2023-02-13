@@ -64,10 +64,15 @@ body {
     border-color $duration ease-in-out;
   border: 1px solid transparent;
   @include noselect();
+  transform: translateY(0);
 
   &,
   span {
     color: #fff;
+  }
+
+  div {
+    display: flex;
   }
 
   i,
@@ -196,7 +201,7 @@ body {
   &--cart {
     display: flex;
     align-items: center;
-    line-height: 23px;
+    line-height: 100%;
     padding: 12px 25px;
     justify-content: center;
 

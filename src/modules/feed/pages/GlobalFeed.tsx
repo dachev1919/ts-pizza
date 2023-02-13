@@ -1,9 +1,9 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { CategoryList } from '../components/category-list/CategoryList';
 import { CategorySort } from '../components/category-sort/CategorySort';
-import { IProduct, Product } from '../components/product/Product';
+import { IProduct, MiniProduct } from '../components/mini-product/MiniProduct';
 import { Container } from '../../../common/components/container/Container';
-import { ProductSkeleton } from '../components/product/ProductSkeleton';
+import { MiniProductSkeleton } from '../components/mini-product/MiniProductSkeleton';
 import { getProductList } from '../api/get-product/get-product';
 import SearchContext from '../../../common/components/UI/search/Search';
 import { useSelector } from 'react-redux';
@@ -81,10 +81,10 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
         <div className="content__items">
           {isLoading
             ? [...new Array(8)].map((_, index) => (
-                <ProductSkeleton key={index} />
+                <MiniProductSkeleton key={index} />
               ))
             : afterSearchFiltered(items).map((pizza) => (
-                <Product key={pizza.id} {...pizza} />
+                <MiniProduct key={pizza.id} {...pizza} />
               ))}
           {afterSearchFiltered(items).length > 0 && <Pagination />}
         </div>

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './CategoryList.module.scss';
-import { IProduct } from '../product/Product';
+import { IProduct } from '../mini-product/MiniProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
 import { setActiveCategory } from '../../../../store/slices/filterSlice';

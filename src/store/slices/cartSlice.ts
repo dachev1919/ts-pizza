@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IProduct } from '../../modules/feed/components/product/Product';
+import { IProduct } from '../../modules/feed/components/mini-product/MiniProduct';
 
 export interface ICartItem extends IProduct {
   count: number;
