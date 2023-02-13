@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IProduct } from '../../modules/feed/components/product/Product';
+import { retry } from '@reduxjs/toolkit/query';
 
 export interface ICartItem extends IProduct {
   count: number;
@@ -20,41 +21,49 @@ export const cartStateInitial: ICartState = {
   totalQuantity: 0,
 };
 
+const productCompare = (first: ICartItem, second: ICartItem): boolean => {
+  return (
+    first.id === second.id &&
+    first.type === second.type &&
+    first.size === second.size
+  );
+};
+
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: cartStateInitial,
   reducers: {
     addProduct(state, action) {
       const newItem = action.payload;
-      const inList = state.items.find(
-        (item: ICartItem) =>
-          item.id === newItem.id &&
-          item.type === newItem.type &&
-          item.size === newItem.size
-      );
-      const inListById = state.items.find(
-        (item: ICartItem) => item.id === newItem.id
+      const inList = state.items.find((item: ICartItem) =>
+        productCompare(item, newItem)
       );
 
-      if (inList && inListById) {
+      if (inList) {
         ++inList.count;
-        ++inListById.totalCount;
-      } else if (inListById) {
-        state.items.push({
-          ...newItem,
-          count: 1,
-          totalCount: ++inListById.totalCount,
-        });
+        state.items.forEach((item) =>
+          item.id === newItem.id ? ++item.totalCount : false
+        );
       } else {
         state.items.push({
           ...newItem,
           count: 1,
           totalCount: 1,
         });
+
+        let newTotalCount = 1;
+
+        state.items.forEach((item) =>
+          !productCompare(item, newItem)
+            ? (newTotalCount = ++item.totalCount)
+            : false
+        );
+        state.items.forEach((item) =>
+          item.id === newItem.id ? (item.totalCount = newTotalCount) : false
+        );
       }
 
       state.totalQuantity++;
-
       state.totalPrice = state.items.reduce(
         (sum, obj) =>
           sum + (typeof obj.count === 'number' ? obj.count : 0) * obj.price,
@@ -82,6 +91,13 @@ export const cartSlice = createSlice({
         state.totalPrice = newPrice > 0 ? newPrice : 0;
         state.items = state.items.filter((item) => item !== inList);
       }
+
+      const itemTotalCount = inList!.totalCount - inList!.count;
+      state.items.forEach((item) => {
+        if (item.id === product.id) {
+          item.totalCount = itemTotalCount > 0 ? itemTotalCount : 0;
+        }
+      });
     },
     clearCart(state) {
       state.items = [];

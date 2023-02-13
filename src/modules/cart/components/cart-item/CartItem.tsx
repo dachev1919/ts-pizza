@@ -25,6 +25,7 @@ export const CartItem: FC<CartItemProps> = ({
     id,
     type,
     size,
+    count,
   };
 
   const addToCartHandler = () => {
@@ -51,12 +52,12 @@ export const CartItem: FC<CartItemProps> = ({
       <div className={styles['cart__item-count']}>
         <div
           onClick={removeFromCartHandler}
-          className={`button button--outline button--circle ${styles['cart__item-count-minus']}`}
+          className={`button button--outline orange button--circle ${styles['cart__item-count-minus']}`}
         ></div>
         <b>{count}</b>
         <div
           onClick={addToCartHandler}
-          className={`button button--outline button--circle ${styles['cart__item-count-plus']}`}
+          className={`button button--outline orange button--circle`}
         >
           <img src={plus} alt="plus" />
         </div>

@@ -117,8 +117,28 @@ body {
   }
 
   &--outline {
+    &:not(.orange) {
+      border-color: $gray-200;
+      &:focus,
+      &:hover {
+        background-color: lighten($color: $gray-200, $amount: 17%);
+
+        span {
+          color: white;
+        }
+      }
+    }
+    &.orange {
+      border-color: $orange;
+      &:focus,
+      &:hover {
+        background-color: lighten($color: $orange, $amount: 40%);
+        span {
+          color: white;
+        }
+      }
+    }
     background-color: #fff;
-    border-color: $gray-200;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -126,13 +146,6 @@ body {
     &,
     span {
       color: $gray-200;
-    }
-    &:focus,
-    &:hover {
-      background-color: $gray-200;
-      span {
-        color: white;
-      }
     }
   }
 
