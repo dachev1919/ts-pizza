@@ -30,11 +30,19 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    getProductList(`pizzas?page=${currentPage}&limit=8`).then((response) => {
-      setAllItems(response.data);
-      setItems(response.data);
-      setIsLoading(false);
-    });
+    const init = async () => {
+      try {
+        const res = await getProductList(`pizzas?page=${currentPage}&limit=8`);
+        setAllItems(res.data);
+        setItems(res.data);
+      } catch (e) {
+        console.log('ERROR - ', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    init();
   }, [currentPage]);
 
   // sorting logic and get url params

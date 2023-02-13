@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IProduct } from '../../modules/feed/components/product/Product';
-import { retry } from '@reduxjs/toolkit/query';
 
 export interface ICartItem extends IProduct {
   count: number;
@@ -21,11 +20,16 @@ export const cartStateInitial: ICartState = {
   totalQuantity: 0,
 };
 
-const productCompare = (first: ICartItem, second: ICartItem): boolean => {
+const productCompare = (
+  first: ICartItem,
+  second: ICartItem,
+  differentParams: boolean = false
+): boolean => {
   return (
     first.id === second.id &&
-    first.type === second.type &&
-    first.size === second.size
+    (differentParams
+      ? first.type !== second.type || first.size !== second.size
+      : first.type === second.type && first.size === second.size)
   );
 };
 
@@ -54,7 +58,7 @@ export const cartSlice = createSlice({
         let newTotalCount = 1;
 
         state.items.forEach((item) =>
-          !productCompare(item, newItem)
+          productCompare(item, newItem, true)
             ? (newTotalCount = ++item.totalCount)
             : false
         );
