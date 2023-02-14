@@ -20,6 +20,18 @@ body {
 
   &__title {
     margin: 35px 0;
+    &.info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #141a26;
+      text-align: center;
+      line-height: 100%;
+      @media screen and (max-width: 576px) {
+        font-size: 30px;
+      }
+    }
   }
 
   &__items {

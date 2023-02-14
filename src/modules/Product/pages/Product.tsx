@@ -1,5 +1,5 @@
 import styles from './Product.module.scss';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { IProduct } from '../../feed/components/mini-product/MiniProduct';
 import { getProductList } from '../../feed/api/get-product/get-product';
 import { Link, useParams } from 'react-router-dom';
@@ -19,27 +19,28 @@ export const Product: FC<ProductProps> = () => {
   const [activeType, setActiveType] = useState<string>('');
   const [activeSize, setActiveSize] = useState<number>(0);
 
+  const init = useCallback(async () => {
+    try {
+      const res = await getProductList(`pizzas`);
+      setProduct(res.data.find((item: IProduct) => item.id === Number(id)));
+      if (product?.types) {
+        setActiveType(product.types[0]);
+      }
+      if (product?.sizes) {
+        setActiveSize(product.sizes[0]);
+      }
+    } catch (e) {
+      console.log('ERROR - ', e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id, product?.types, product?.sizes]);
+
   useEffect(() => {
     setIsLoading(true);
-    const init = async () => {
-      try {
-        const res = await getProductList(`pizzas`);
-        setProduct(res.data.find((item: IProduct) => item.id === Number(id)));
-        if (product?.types) {
-          setActiveType(product.types[0]);
-        }
-        if (product?.sizes) {
-          setActiveSize(product.sizes[0]);
-        }
-      } catch (e) {
-        console.log('ERROR - ', e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
     init();
-  }, []);
+  }, [init]);
 
   const addToCartHandler = (product: IProduct) => {
     const item = {

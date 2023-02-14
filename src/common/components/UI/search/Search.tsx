@@ -1,35 +1,25 @@
-import {
-  ComponentProps,
-  createContext,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useContext,
-  useRef,
-} from 'react';
+import { ComponentProps, FC, useRef } from 'react';
 import styles from './Search.module.scss';
 import { BsSearch } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
+import { setSearchValue } from '../../../../store/slices/searchSlice';
 
 interface SearchProps {
   placeholder: ComponentProps<'input'>['placeholder'];
 }
 
-type SearchType = {
-  searchValue: string;
-  setSearchValue: Dispatch<SetStateAction<string>>;
-};
-
-const ISearch = {
-  searchValue: '',
-  setSearchValue: () => {},
-};
-
-const SearchContext = createContext<SearchType>(ISearch);
-
 export const Search: FC<SearchProps> = ({ placeholder }) => {
-  const { searchValue, setSearchValue } = useContext(SearchContext);
+  const searchValue = useSelector(
+    (state: RootState) => state.search.searchValue
+  );
+  const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const setSearchValueHandler = (text: string) => {
+    dispatch(setSearchValue(text));
+  };
 
   const clearClickHandler = (): void => {
     setSearchValue('');
@@ -47,7 +37,7 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
         ref={inputRef}
         id="searchInput"
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={(e) => setSearchValueHandler(e.target.value)}
         type="text"
       />
       <div
@@ -65,5 +55,3 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
     </div>
   );
 };
-
-export default SearchContext;

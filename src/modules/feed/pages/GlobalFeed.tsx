@@ -1,11 +1,10 @@
-import { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { CategoryList } from '../components/category-list/CategoryList';
 import { CategorySort } from '../components/category-sort/CategorySort';
 import { IProduct, MiniProduct } from '../components/mini-product/MiniProduct';
 import { Container } from '../../../common/components/container/Container';
 import { MiniProductSkeleton } from '../components/mini-product/MiniProductSkeleton';
 import { getProductList } from '../api/get-product/get-product';
-import SearchContext from '../../../common/components/UI/search/Search';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { SortOrder } from '../components/sort-order/SortOrder';
@@ -24,7 +23,9 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   const [items, setItems] = useState<IProduct[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // search context
-  const { searchValue } = useContext(SearchContext);
+  const searchValue = useSelector(
+    (state: RootState) => state.search.searchValue
+  );
 
   // set all items
   useEffect(() => {
@@ -64,19 +65,21 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   return (
     <div className="content">
       <Container>
-        <div className="content__top">
-          {!isLoading && (
-            <>
-              <CategoryList items={allItems} />
-              <CategorySort />
-              <SortOrder />
-            </>
-          )}
-        </div>
-        <h2 className="content__title">
-          {afterSearchFiltered(items).length > 0
+        {!isLoading && (
+          <div className="content__top">
+            <CategoryList items={allItems} />
+            <CategorySort />
+            <SortOrder />
+          </div>
+        )}
+        <h2
+          className={`content__title ${
+            afterSearchFiltered(items).length > 0 ? '' : 'info'
+          }`}
+        >
+          {!isLoading && afterSearchFiltered(items).length > 0
             ? 'Усі піци'
-            : 'На жаль піца відсутня'}
+            : 'Піца завантажується або відсутня'}
         </h2>
         <div className="content__items">
           {isLoading
