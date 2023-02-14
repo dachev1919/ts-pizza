@@ -4,11 +4,6 @@
   border-bottom: 1px solid $gray-line;
   padding: 40px 0 40px 0;
 
-  &__logo {
-    display: flex;
-    width: max-content;
-  }
-
   &__container {
     display: flex;
     align-items: center;
@@ -46,11 +41,13 @@
 
   &__logo {
     display: flex;
+    width: max-content;
     @media screen and (max-width: 767px) {
     }
 
     img {
       margin-right: 15px;
+      width: 38px;
     }
 
     h1 {

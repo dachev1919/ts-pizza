@@ -8,6 +8,7 @@ import {
   removeItem,
 } from '../../../../store/slices/cartSlice';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 interface CartItemProps extends ICartItem {}
 
@@ -41,13 +42,17 @@ export const CartItem: FC<CartItemProps> = ({
   return (
     <div className={styles.cart__item}>
       <div className={styles['cart__item-img']}>
-        <img src={imageUrl} alt="Pizza" />
+        <Link to={`/ts-pizza/${id}`}>
+          <img src={imageUrl} alt="Pizza" />
+        </Link>
       </div>
       <div className={styles['cart__item-info']}>
-        <h3>{title}</h3>
-        <p>
-          {type}, {size} см.
-        </p>
+        <Link to={`/ts-pizza/${id}`}>
+          <h3>{title}</h3>
+          <p>
+            {type}, {size} см.
+          </p>
+        </Link>
       </div>
       <div className={styles['cart__item-count']}>
         <div

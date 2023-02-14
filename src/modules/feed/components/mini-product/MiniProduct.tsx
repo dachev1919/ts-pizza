@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../../../store/slices/cartSlice';
 import { RootState } from '../../../../store/store';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export interface IProduct {
   id: number;
@@ -52,6 +53,7 @@ export const MiniProduct: FC<ProductProps> = ({
     };
 
     dispatch(addProduct(item));
+    toast.success('product added successfully');
   };
 
   return (

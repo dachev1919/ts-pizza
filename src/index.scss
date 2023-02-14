@@ -4,7 +4,6 @@
 body {
   background-color: $background;
 }
-
 .wrapper {
   width: calc(
     100vw - calc(10px + (100 - 10) * ((100vw - 320px) / (1920 - 320)))
@@ -165,6 +164,7 @@ body {
     gap: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     svg {
       margin-right: 2px;
     }

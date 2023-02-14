@@ -1,0 +1,83 @@
+@import '../../../styles/variables';
+.product {
+  &__loading {
+    text-align: center;
+    min-height: 550px;
+    display: flex;
+    align-items: center;
+  }
+  &__image {
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  &__wrapper {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    div {
+      flex: 0 0 calc(50% - 1rem);
+      @media screen and (max-width: 767px) {
+        flex: 0 0 100%;
+      }
+    }
+  }
+  h1 {
+    @media screen and (max-width: 991px) {
+      font-size: 2rem;
+    }
+  }
+  &__info {
+    h1,
+    h2,
+    p {
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      span {
+        color: $black;
+        font-size: 1.1rem;
+      }
+    }
+    &-rating {
+      span {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+      }
+    }
+    &-buttons {
+      span {
+        cursor: pointer;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid $black;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        &:hover {
+          background: lighten($color: $black, $amount: 85%);
+        }
+        &.active {
+          background: $black;
+          color: white;
+        }
+      }
+    }
+    &-footer {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 2rem;
+      @media screen and (max-width: 991px) {
+        gap: 1rem;
+      }
+      @media screen and (max-width: 576px) {
+        flex-direction: column;
+      }
+    }
+  }
+}
