@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IProduct } from '../../modules/feed/components/mini-product/MiniProduct';
+import { getCartItemsFromStorage } from '../../utils/getCartItemsFromStorage';
+import { calcTotalPrice } from '../../utils/calcTotalPrice';
 
 export interface ICartItem extends IProduct {
   count: number;
@@ -14,10 +16,12 @@ export interface ICartState {
   totalQuantity: number;
 }
 
+const cartData = getCartItemsFromStorage();
+
 export const cartStateInitial: ICartState = {
-  items: [],
-  totalPrice: 0,
-  totalQuantity: 0,
+  items: cartData.items,
+  totalPrice: cartData.totalPrice,
+  totalQuantity: cartData.totalQuantity,
 };
 
 const productCompare = (
@@ -68,11 +72,7 @@ export const cartSlice = createSlice({
       }
 
       state.totalQuantity++;
-      state.totalPrice = state.items.reduce(
-        (sum, obj) =>
-          sum + (typeof obj.count === 'number' ? obj.count : 0) * obj.price,
-        0
-      );
+      state.totalPrice = calcTotalPrice(state.items);
     },
     removeItem(state, action) {
       const product = action.payload;

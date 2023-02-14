@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link, useLocation } from 'react-router-dom';
@@ -11,10 +11,21 @@ import cartSvg from '../../../assets/images/cart.svg';
 interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
+  const items = useSelector((state: RootState) => state.cart.items);
   const { pathname } = useLocation();
   const { totalQuantity, totalPrice } = useSelector(
     (state: RootState) => state.cart
   );
+  let isMounted = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (isMounted) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cartItems', json);
+    }
+    isMounted.current = true;
+  }, [items]);
+
   return (
     <div className={styles.header}>
       <div className={`${styles.header__container} container`}>

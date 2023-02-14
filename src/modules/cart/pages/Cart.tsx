@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import cart from '../../../assets/images/cart-dark.svg';
 import trash from '../../../assets/images/trash.svg';
 import arrowLeft from '../../../assets/images/grey-arrow-left.svg';
