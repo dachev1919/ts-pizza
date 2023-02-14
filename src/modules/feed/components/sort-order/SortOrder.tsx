@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC, memo } from 'react';
 import arrowUp from '../../../../assets/images/arrow-up.svg';
 import { setSortOrder } from '../../../../store/slices/filterSlice';
 import styles from './SortOrder.module.scss';
+import { useAppDispatch } from '../../../../store/store';
 
 export enum sortOrderEnum {
   desc = 'desc',
@@ -11,8 +11,8 @@ export enum sortOrderEnum {
 
 interface SortOrderProps {}
 
-export const SortOrder: FC<SortOrderProps> = () => {
-  const dispatch = useDispatch();
+export const SortOrder: FC<SortOrderProps> = memo(() => {
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.sortAscDesc}>
@@ -26,4 +26,4 @@ export const SortOrder: FC<SortOrderProps> = () => {
       </div>
     </div>
   );
-};
+});

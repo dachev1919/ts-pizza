@@ -1,8 +1,8 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, memo, useEffect, useRef } from 'react';
 import styles from './CategorySort.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setSortBy } from '../../../../store/slices/filterSlice';
-import { RootState } from '../../../../store/store';
+import { RootState, useAppDispatch } from '../../../../store/store';
 
 function assertIsNode(e: EventTarget | null): asserts e is Node {
   if (!e || !('nodeType' in e)) {
@@ -14,8 +14,8 @@ interface CategorySortProps {}
 
 const sortList: string[] = ['популярність', 'ціна', 'алфавіт'];
 
-export const CategorySort: FC<CategorySortProps> = () => {
-  const dispatch = useDispatch();
+export const CategorySort: FC<CategorySortProps> = memo(() => {
+  const dispatch = useAppDispatch();
   const activeSortBy = useSelector((state: RootState) => state.filter.sortBy);
   const sortRef = useRef<HTMLInputElement>(null);
 
@@ -61,4 +61,4 @@ export const CategorySort: FC<CategorySortProps> = () => {
       </div>
     </div>
   );
-};
+});

@@ -2,8 +2,8 @@ import { ComponentProps, FC, useRef } from 'react';
 import styles from './Search.module.scss';
 import { BsSearch } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../store/store';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../../../store/store';
 import { setSearchValue } from '../../../../store/slices/searchSlice';
 
 interface SearchProps {
@@ -14,7 +14,7 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
   const searchValue = useSelector(
     (state: RootState) => state.search.searchValue
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const setSearchValueHandler = (text: string) => {
@@ -22,7 +22,7 @@ export const Search: FC<SearchProps> = ({ placeholder }) => {
   };
 
   const clearClickHandler = (): void => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
     if (inputRef.current) {
       inputRef.current.focus();
     }

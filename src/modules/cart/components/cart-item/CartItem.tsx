@@ -6,8 +6,8 @@ import {
   ICartItem,
   removeItem,
 } from '../../../../store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../../../store/store';
 
 interface CartItemProps extends ICartItem {}
 
@@ -20,7 +20,7 @@ export const CartItem: FC<CartItemProps> = ({
   count,
   price,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cartItem = {
     id,
     type,

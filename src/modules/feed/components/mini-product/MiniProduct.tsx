@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 import Plus from '../../../../assets/images/plus-white.svg';
 import styles from './MiniProduct.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { addProduct } from '../../../../store/slices/cartSlice';
-import { RootState } from '../../../../store/store';
+import { RootState, useAppDispatch } from '../../../../store/store';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -22,7 +22,7 @@ export interface IProduct {
 interface ProductProps extends IProduct {}
 
 export const MiniProduct: FC<ProductProps> = (product) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cartItem = useSelector((state: RootState) =>
     state.cart.items.find((obj) => obj.id === product.id)
   );

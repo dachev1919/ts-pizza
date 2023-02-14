@@ -34,6 +34,7 @@ body {
       font-size: 48px;
       color: #141a26;
       text-align: center;
+      grid-column: 1/-1;
       line-height: 100%;
       @media screen and (max-width: 576px) {
         font-size: 30px;
@@ -132,7 +133,12 @@ body {
 
   &--black {
     background-color: $black;
+    gap: 10px;
+    display: flex;
 
+    img {
+      max-width: 8px !important;
+    }
     &:hover,
     &:active {
       background-color: lighten($color: $black, $amount: 10);

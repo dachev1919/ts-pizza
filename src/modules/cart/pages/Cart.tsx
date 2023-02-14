@@ -5,8 +5,8 @@ import arrowLeft from '../../../assets/images/grey-arrow-left.svg';
 import styles from './Cart.module.scss';
 import { CartItem } from '../components/cart-item/CartItem';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../../store/store';
 import { clearCart } from '../../../store/slices/cartSlice';
 import { IProduct } from '../../feed/components/mini-product/MiniProduct';
 import { EmptyCart } from '../components/empty-cart/EmptyCart';
@@ -18,7 +18,7 @@ export const Cart: FC<CartProps> = () => {
   const sortedItems = [...items].sort(
     (a: IProduct, b: IProduct) => a.id - b.id
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { totalPrice, totalQuantity } = useSelector(
     (state: RootState) => state.cart
   );

@@ -64,21 +64,31 @@ export const GlobalFeed: FC<GlobalFeedProps> = () => {
   }
 
   return (
-    <div className="content">
+    <div
+      className={`content ${
+        afterSearchFiltered(items).length < 1 && 'centring'
+      }`}
+    >
       <Container>
-        <div className="content__top">
-          <CategoryList items={allItems} />
-          <CategorySort />
-          <SortOrder />
-        </div>
-        <h2 className="content__title">Усі піци</h2>
-        <div className="content__items">
-          {afterSearchFiltered(items).length > 0 &&
-            afterSearchFiltered(items).map((pizza) => (
-              <MiniProduct key={pizza.id} {...pizza} />
-            ))}
-          {afterSearchFiltered(items).length > 0 && <Pagination />}
-        </div>
+        {afterSearchFiltered(items).length > 0 ? (
+          <>
+            <div className="content__top">
+              <CategoryList items={allItems} />
+              <CategorySort />
+              <SortOrder />
+            </div>
+            <h2 className="content__title">Усі піци</h2>
+            <div className="content__items">
+              {afterSearchFiltered(items).length > 0 &&
+                afterSearchFiltered(items).map((pizza) => (
+                  <MiniProduct key={pizza.id} {...pizza} />
+                ))}
+              {afterSearchFiltered(items).length > 0 && <Pagination />}
+            </div>
+          </>
+        ) : (
+          <h2 className="content__title info">Продукти відсутні&#128577;</h2>
+        )}
       </Container>
     </div>
   );

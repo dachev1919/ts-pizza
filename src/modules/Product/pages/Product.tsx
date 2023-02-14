@@ -5,11 +5,11 @@ import { Link, useParams } from 'react-router-dom';
 import { Container } from '../../../common/components/container/Container';
 import { AiFillStar } from 'react-icons/ai';
 import { addProduct } from '../../../store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useGetProductsByPermalinkQuery } from '../../../store/slices/apiSlice';
 import { ProductsLoading } from '../components/product-loading/ProductLoading';
 import { LoadingError } from '../../../common/components/UI/loading-error/LoadingError';
+import { useAppDispatch } from '../../../store/store';
 
 interface ProductProps {}
 
@@ -19,7 +19,7 @@ export const Product: FC<ProductProps> = () => {
     isLoading,
     isError,
   } = useGetProductsByPermalinkQuery(`pizzas`);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct>();
   const [activeType, setActiveType] = useState<string>('');

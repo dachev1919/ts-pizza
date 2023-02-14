@@ -15,10 +15,7 @@ export const EmptyCart: FC<EmptyCartProps> = () => {
         Найімовірніше, ви не замовили ще піцу. Щоб зробити замовлення, перейдіть
         на головну сторінку
       </p>
-      <Link
-        to={'/ts-pizza'}
-        className="button button--outline button--add go-back-btn"
-      >
+      <Link to={'/ts-pizza'} className="button button--black">
         <img src={arrowLeft} alt="arrow" />
         <span>Повернутися назад</span>
       </Link>
