@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import Plus from '../../../../assets/images/plus-white.svg';
+import Plus from '../../../../common/assets/images/plus-white.svg';
 import styles from './MiniProduct.module.scss';
 import { useSelector } from 'react-redux';
 import { addProduct } from '../../../../store/slices/cartSlice';

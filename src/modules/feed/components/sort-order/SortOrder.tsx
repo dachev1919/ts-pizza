@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import arrowUp from '../../../../assets/images/arrow-up.svg';
+import arrowUp from '../../../../common/assets/images/arrow-up.svg';
 import { setSortOrder } from '../../../../store/slices/filterSlice';
 import styles from './SortOrder.module.scss';
 import { useAppDispatch } from '../../../../store/store';

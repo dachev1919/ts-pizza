@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import plus from '../../../../assets/images/plus.svg';
+import plus from '../../../../common/assets/images/plus.svg';
 import styles from './CartItem.module.scss';
 import {
   addProduct,

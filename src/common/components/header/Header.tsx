@@ -1,12 +1,12 @@
 import { FC, useEffect, useRef } from 'react';
-import logo from '../../../assets/images/pizza-logo.svg';
+import logo from '../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { Search } from '../UI/search/Search';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { ReactSVG } from 'react-svg';
-import cartSvg from '../../../assets/images/cart.svg';
+import cartSvg from '../../assets/images/cart.svg';
 
 interface HeaderProps {}
 

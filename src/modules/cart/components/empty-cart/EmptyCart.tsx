@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './EmptyCart.module.scss';
-import emptyCart from '../../../../assets/images/empty-cart.png';
-import arrowLeft from '../../../../assets/images/grey-arrow-left.svg';
+import emptyCart from '../../../../common/assets/images/empty-cart.png';
+import arrowLeft from '../../../../common/assets/images/grey-arrow-left.svg';
 import { Link } from 'react-router-dom';
 
 interface EmptyCartProps {}

@@ -1,7 +1,7 @@
-import { FC, useEffect, useRef } from 'react';
-import cart from '../../../assets/images/cart-dark.svg';
-import trash from '../../../assets/images/trash.svg';
-import arrowLeft from '../../../assets/images/grey-arrow-left.svg';
+import { FC, useEffect } from 'react';
+import cart from '../../../common/assets/images/cart-dark.svg';
+import trash from '../../../common/assets/images/trash.svg';
+import arrowLeft from '../../../common/assets/images/grey-arrow-left.svg';
 import styles from './Cart.module.scss';
 import { CartItem } from '../components/cart-item/CartItem';
 import { Link } from 'react-router-dom';
