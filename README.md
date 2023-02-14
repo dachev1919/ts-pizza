@@ -1,3 +1,2 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Rewrote an old project in typescript, which was in js
+[LINK](https://dachev1919.github.io/ts-pizza).

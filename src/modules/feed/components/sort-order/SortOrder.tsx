@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-// @ts-ignore
 import arrowUp from '../../../../assets/images/arrow-up.svg';
 import { setSortOrder } from '../../../../store/slices/filterSlice';
 import styles from './SortOrder.module.scss';

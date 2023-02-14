@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import styles from './EmptyCart.module.scss';
-// @ts-ignore
 import emptyCart from '../../../../assets/images/empty-cart.png';
-// @ts-ignore
 import arrowLeft from '../../../../assets/images/grey-arrow-left.svg';
 import { Link } from 'react-router-dom';
 

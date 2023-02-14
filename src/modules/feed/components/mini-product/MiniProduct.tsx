@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-//@ts-ignore
 import Plus from '../../../../assets/images/plus-white.svg';
 import styles from './MiniProduct.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,53 +21,35 @@ export interface IProduct {
 
 interface ProductProps extends IProduct {}
 
-export const MiniProduct: FC<ProductProps> = ({
-  id,
-  imageUrl,
-  title,
-  types,
-  sizes,
-  price,
-  category,
-  rating,
-}) => {
+export const MiniProduct: FC<ProductProps> = (product) => {
   const dispatch = useDispatch();
   const cartItem = useSelector((state: RootState) =>
-    state.cart.items.find((obj) => obj.id === id)
+    state.cart.items.find((obj) => obj.id === product.id)
   );
   const addedCount: number =
     cartItem && cartItem.totalCount ? cartItem.totalCount : 0;
   const typeNames: string[] = ['тонке', 'традиційне'];
-  const [activeType, setActiveType] = useState<string>(types[0]);
-  const [activeSize, setActiveSize] = useState<number>(sizes[0]);
+  const [activeType, setActiveType] = useState<string>(product.types[0]);
+  const [activeSize, setActiveSize] = useState<number>(product.sizes[0]);
 
   const addToCartHandler = () => {
-    const item = {
-      id,
-      title,
-      price,
-      imageUrl,
-      type: activeType,
-      size: activeSize,
-    };
-
-    dispatch(addProduct(item));
+    dispatch(addProduct({ ...product, type: activeType, size: activeSize }));
     toast.success('product added successfully');
   };
 
   return (
     <div className={styles['pizza-block']}>
-      <Link to={`/ts-pizza/${id}`}>
+      <Link to={`/ts-pizza/${product.id}`}>
         <img
           className={styles['pizza-block__image']}
-          src={imageUrl}
+          src={product.imageUrl}
           alt="Pizza"
         />
-        <h4 className={styles['pizza-block__title']}>{title}</h4>
+        <h4 className={styles['pizza-block__title']}>{product.title}</h4>
       </Link>
       <div className={styles['pizza-block__selector']}>
         <ul>
-          {types.map(
+          {product.types.map(
             (type, index) =>
               typeNames.includes(type) && (
                 <li
@@ -82,7 +63,7 @@ export const MiniProduct: FC<ProductProps> = ({
           )}
         </ul>
         <ul>
-          {sizes.map((size, index) => (
+          {product.sizes.map((size, index) => (
             <li
               className={`${activeSize === size && styles.active}`}
               onClick={() => setActiveSize(size)}
@@ -94,7 +75,7 @@ export const MiniProduct: FC<ProductProps> = ({
         </ul>
       </div>
       <div className={styles['pizza-block__bottom']}>
-        <div className={styles['pizza-block__price']}>от {price} ₽</div>
+        <div className={styles['pizza-block__price']}>от {product.price} ₽</div>
         <button onClick={addToCartHandler} className="button button--add">
           <img src={Plus} alt="plus" />
           <span>Додати</span>

@@ -1,9 +1,6 @@
 import { FC, useEffect } from 'react';
-// @ts-ignore
-import cart from '../../../assets/images/cart.svg';
-// @ts-ignore
+import cart from '../../../assets/images/cart-dark.svg';
 import trash from '../../../assets/images/trash.svg';
-// @ts-ignore
 import arrowLeft from '../../../assets/images/grey-arrow-left.svg';
 import styles from './Cart.module.scss';
 import { CartItem } from '../components/cart-item/CartItem';

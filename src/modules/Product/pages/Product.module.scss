@@ -1,11 +1,5 @@
 @import '../../../styles/variables';
 .product {
-  &__loading {
-    text-align: center;
-    min-height: 550px;
-    display: flex;
-    align-items: center;
-  }
   &__image {
     img {
       width: 100%;

@@ -17,6 +17,13 @@ body {
 
 .content {
   padding: 40px 0;
+  min-height: 550px;
+
+  &.centring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__title {
     margin: 35px 0;

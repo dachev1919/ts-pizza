@@ -1,5 +1,4 @@
 import { FC } from 'react';
-// @ts-ignore
 import styles from './Pagination.module.scss';
 import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';

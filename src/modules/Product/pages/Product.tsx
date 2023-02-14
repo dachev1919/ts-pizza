@@ -1,69 +1,52 @@
 import styles from './Product.module.scss';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IProduct } from '../../feed/components/mini-product/MiniProduct';
-import { getProductList } from '../../feed/api/get-product/get-product';
 import { Link, useParams } from 'react-router-dom';
 import { Container } from '../../../common/components/container/Container';
 import { AiFillStar } from 'react-icons/ai';
 import { addProduct } from '../../../store/slices/cartSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useGetProductsByPermalinkQuery } from '../../../store/slices/apiSlice';
+import { ProductsLoading } from '../components/product-loading/ProductLoading';
+import { LoadingError } from '../../../common/components/UI/loading-error/LoadingError';
 
 interface ProductProps {}
 
 export const Product: FC<ProductProps> = () => {
+  const {
+    data: allItems,
+    isLoading,
+    isError,
+  } = useGetProductsByPermalinkQuery(`pizzas`);
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct>();
   const [activeType, setActiveType] = useState<string>('');
   const [activeSize, setActiveSize] = useState<number>(0);
 
-  const init = useCallback(async () => {
-    try {
-      const res = await getProductList(`pizzas`);
-      setProduct(res.data.find((item: IProduct) => item.id === Number(id)));
-      if (product?.types) {
-        setActiveType(product.types[0]);
-      }
-      if (product?.sizes) {
-        setActiveSize(product.sizes[0]);
-      }
-    } catch (e) {
-      console.log('ERROR - ', e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id, product?.types, product?.sizes]);
-
   useEffect(() => {
-    setIsLoading(true);
-
-    init();
-  }, [init]);
+    if (allItems) {
+      const findProduct = allItems.find((item) => item.id === Number(id));
+      if (findProduct) {
+        setActiveType(findProduct.types[0]);
+        setActiveSize(findProduct.sizes[0]);
+        setProduct(findProduct);
+      }
+    }
+  }, [allItems, id]);
 
   const addToCartHandler = (product: IProduct) => {
-    const item = {
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      type: activeType,
-      size: activeSize,
-    };
-
-    dispatch(addProduct(item));
+    dispatch(addProduct({ ...product, type: activeType, size: activeSize }));
     toast.success('product added successfully');
   };
 
   if (isLoading) {
-    return (
-      <div className={`content ${styles['product__loading']}`}>
-        <Container>
-          <h1>Завантаження інформації...&#128579;</h1>
-        </Container>
-      </div>
-    );
+    return <ProductsLoading />;
+  }
+
+  if (isError || !product) {
+    return <LoadingError centring={true} />;
   }
 
   return (

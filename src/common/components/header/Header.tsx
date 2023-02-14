@@ -1,5 +1,4 @@
 import { FC } from 'react';
-// @ts-ignore
 import logo from '../../../assets/images/pizza-logo.svg';
 import styles from './Header.module.scss';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { Search } from '../UI/search/Search';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { ReactSVG } from 'react-svg';
-// @ts-ignore
 import cartSvg from '../../../assets/images/cart.svg';
 
 interface HeaderProps {}

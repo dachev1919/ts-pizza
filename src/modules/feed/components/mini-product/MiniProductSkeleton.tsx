@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import ContentLoader from 'react-content-loader';
 
 interface ProductSkeletonProps {}

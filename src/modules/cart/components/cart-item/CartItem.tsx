@@ -1,5 +1,4 @@
 import { FC } from 'react';
-// @ts-ignore
 import plus from '../../../../assets/images/plus.svg';
 import styles from './CartItem.module.scss';
 import {
