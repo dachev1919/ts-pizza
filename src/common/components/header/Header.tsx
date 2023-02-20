@@ -40,7 +40,7 @@ export const Header: FC<HeaderProps> = () => {
             </div>
           </Link>
         </div>
-        {pathname === '/ts-pizza' && <Search placeholder="Пошук піци" />}
+        {pathname === '/ts-pizza' || pathname === '/ts-pizza/' && <Search placeholder="Пошук піци" />}
         <div className={styles['header__cart']}>
           <Link to="/ts-pizza/cart" className="button button--cart">
             <span>{totalPrice} $</span>
